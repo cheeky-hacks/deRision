@@ -1,5 +1,6 @@
-registers/
-**/chromedriver
+registers/*
+driver/*
+tutees/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

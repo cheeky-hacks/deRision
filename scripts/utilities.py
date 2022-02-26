@@ -8,7 +8,9 @@ from selenium.webdriver.chrome.options import Options
 def initialiseDriver():
     options = Options()
     options.page_load_strategy = "eager"
-    driver = webdriver.Chrome(options=options, executable_path="." + os.sep + "chromedriver")
+    driverBinaries = os.listdir("driver")
+    for binaryFilename in driverBinaries:
+        if (binaryFilename[0] != "."): driver = webdriver.Chrome(options=options, executable_path="driver" + os.sep + binaryFilename)
     driver.get("https://evision.apps.bristol.ac.uk")
     wait = ui.WebDriverWait(driver, 1000)
     # Additional wait to make sure that we actually get logged in

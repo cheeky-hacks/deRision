@@ -17,6 +17,12 @@ def initialiseDriver():
     wait.until(lambda driver: driver.find_elements(by=By.PARTIAL_LINK_TEXT, value="Admissions"))
     return driver
 
+def extractNumberFromFilename(filename):
+    number = filename
+    if "." in number[-5:]: number = number[:number.rindex(".")]
+    number = number[-7:]
+    return number.strip()
+
 def hideBrowser(driver):
     driver.set_window_position(0, 40000, windowHandle="current")
 

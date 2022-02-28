@@ -10,7 +10,6 @@ else:
     # utilities.hideBrowser(driver)
 
     for i in range(1,len(sys.argv)):
-        nextStudentNumber = sys.argv[i]
-        # Just use the last 7 characters - in case the ident starts with a nickname
-        nextStudentNumber = nextStudentNumber[-7:]
+        # Get the student number from the parameter (which might be a filename)
+        nextStudentNumber = extractNumberFromFilename(sys.argv[i])
         utilities.logAttendanceForStudent(driver, nextStudentNumber, notes)

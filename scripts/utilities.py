@@ -12,6 +12,7 @@ def initialiseDriver():
     for binaryFilename in driverBinaries:
         if (binaryFilename[0] != "."): driver = webdriver.Chrome(options=options, executable_path="driver" + os.sep + binaryFilename)
     driver.get("https://evision.apps.bristol.ac.uk")
+
     wait = ui.WebDriverWait(driver, 1000)
     # Additional wait to make sure that we actually get logged in
     wait.until(lambda driver: driver.find_elements(by=By.PARTIAL_LINK_TEXT, value="Admissions"))
@@ -49,6 +50,10 @@ def insertNotes(driver, text):
     wait = ui.WebDriverWait(driver, 1000)
     textbox = wait.until(lambda driver: driver.find_elements(by=By.XPATH, value="//textarea"))[0]
     textbox.send_keys(text)
+
+def waitUntilWeSeeLink(driver, text):
+    wait = ui.WebDriverWait(driver, 1000)
+    wait.until(lambda driver: driver.find_elements(by=By.PARTIAL_LINK_TEXT, value=text))[0]
 
 def clickOnLink(driver, text):
     wait = ui.WebDriverWait(driver, 1000)
@@ -113,3 +118,4 @@ def logAttendanceForStudent(driver, studentNumber, notes):
     insertNotes(driver, notes)
     # Only uncomment this when we actually want to log attendance
     # clickOnButton(driver, "Confirm")
+    waitUntilWeSeeLink(driver, "Mark Flags")

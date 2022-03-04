@@ -5,7 +5,7 @@ These are implemented as a set of browser macros that automate navigation throug
 
 ## Installation
 Download a copy of the scripts by either cloning this repository or by
-[downloading a zip file of it](https://github.com/cheeky-hacks/deRision.git).
+[downloading a zip file of it](https://github.com/cheeky-hacks/deRision/archive/refs/heads/main.zip).
 
 In order to use these scripts, you will need to install a
 [browser driver](https://www.selenium.dev/documentation/webdriver/getting_started/install_drivers/)

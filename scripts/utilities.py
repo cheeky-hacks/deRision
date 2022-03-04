@@ -61,6 +61,12 @@ def clickOnLink(driver, text):
     link = wait.until(lambda driver: driver.find_elements(by=By.PARTIAL_LINK_TEXT, value=text))[0]
     link.click()
 
+def clickOnLinkByClass(driver, classname, linkNumber):
+    wait = ui.WebDriverWait(driver, 1000)
+    links = []
+    while len(links) < linkNumber+1:links = wait.until(lambda driver: driver.find_elements(by=By.XPATH, value="//a[@class='" + classname + "']"))
+    links[linkNumber].click()
+
 def clickOnLabel(driver, text):
     wait = ui.WebDriverWait(driver, 1000)
     label = wait.until(lambda driver: driver.find_elements(by=By.XPATH, value="//label[text()='" + text + "']"))[0]

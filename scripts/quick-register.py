@@ -1,7 +1,5 @@
 import sys
 import utilities
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 
 parameters = {}
 students = []
@@ -14,7 +12,7 @@ while i < len(sys.argv):
     if sys.argv[i][0] == "-": i+=2
     else: i+=1
 
-if len(students) == 0: print("Usage: python3 " + sys.argv[0] + " [-d DD/MM/YYYY] [-t HH:MM] <student number>...")
+if len(students) == 0: print("Usage: python " + sys.argv[0] + " [-d DD/MM/YYYY] [-t HH:MM] <student number>...")
 else:
     parameters["notes"] = input("Please enter note text for these students: ")
     driver = utilities.initialiseDriver()

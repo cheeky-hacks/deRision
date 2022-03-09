@@ -1,9 +1,10 @@
-import os
+import os, time
 from selenium import webdriver
 from selenium.webdriver.support import ui
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.chrome.options import Options
+from selenium.common.exceptions import NoSuchElementException
 
 def initialiseDriver():
     options = Options()
@@ -53,8 +54,12 @@ def insertNotes(driver, text):
     textbox.send_keys(text)
 
 def waitUntilWeSeeLink(driver, text):
-    wait = ui.WebDriverWait(driver, 1000)
-    wait.until(lambda driver: driver.find_elements(by=By.PARTIAL_LINK_TEXT, value=text))[0]
+    # Make sure it's a long, long wait
+    wait = ui.WebDriverWait(driver, 999999)
+    wait.until(lambda driver: driver.find_elements(by=By.PARTIAL_LINK_TEXT, value=text))
+
+def waitUntilWeSeeContent(driver, text):
+    while text not in driver.page_source: time.sleep(1)
 
 def clickOnLink(driver, text):
     wait = ui.WebDriverWait(driver, 1000)
@@ -128,6 +133,7 @@ def logAttendanceForStudent(driver, studentNumber, parameters):
     # If you look at the page source, the time text input is 1, but for some reason we have to use 3 !
     if "time" in parameters: insertText(driver, 3, parameters["time"])
     insertNotes(driver, parameters["notes"])
-    # Only uncomment this when we actually want to log attendance
+    # Only uncomment this when we happy that the script is robust and we don't want to include a pause-before-commit
     # clickOnButton(driver, "Confirm")
-    waitUntilWeSeeLink(driver, "Mark Flags")
+    waitUntilWeSeeContent(driver, "Attendance record added successfully")
+    clickOnButton(driver, "Exit")

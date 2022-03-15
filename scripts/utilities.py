@@ -1,4 +1,4 @@
-import os, time
+import os, pwd, time
 from selenium import webdriver
 from selenium.webdriver.support import ui
 from selenium.webdriver.common.by import By
@@ -13,10 +13,13 @@ def initialiseDriver():
     for binaryFilename in driverBinaries:
         if (binaryFilename[0] != "."): driver = webdriver.Chrome(options=options, executable_path="driver" + os.sep + binaryFilename)
     driver.get("https://evision.apps.bristol.ac.uk")
-
-    wait = ui.WebDriverWait(driver, 1000)
-    # Additional wait to make sure that we actually get logged in
-    wait.until(lambda driver: driver.find_elements(by=By.PARTIAL_LINK_TEXT, value="Admissions"))
+    waitUntilWeSeeContent(driver, "Sign in")
+    username = pwd.getpwuid(os.getuid())[0]
+    insertTextByID(driver,"MUA_CODE.DUMMY.MENSYS",username)
+    # Set focus to be password field (so the user can just type it in !)
+    clickOnElementByID(driver,"PASSWORD.DUMMY.MENSYS")
+    # Wait until the user have entered the password and we are actually logged in before returning
+    waitUntilWeSeeLink(driver, "Admissions")
     return driver
 
 def extractNumberFromFilename(filename):
@@ -27,6 +30,11 @@ def extractNumberFromFilename(filename):
 
 def hideBrowser(driver):
     driver.set_window_position(0, 40000, windowHandle="current")
+
+def clickOnElementByID(driver, id):
+    wait = ui.WebDriverWait(driver, 1000)
+    element = wait.until(lambda driver: driver.find_elements(by=By.ID, value=id))[0]
+    element.click()
 
 def clickLastRadioButton(driver):
     wait = ui.WebDriverWait(driver, 1000)
@@ -39,6 +47,11 @@ def pickFromDropDown(driver, boxNumber, optionNumber):
     while len(dropdowns) < boxNumber+1: dropdowns = wait.until(lambda driver: driver.find_elements(by=By.XPATH, value="//select"))
     dropdown = Select(dropdowns[boxNumber])
     dropdown.select_by_index(optionNumber)
+
+def insertTextByID(driver, id, text):
+    wait = ui.WebDriverWait(driver, 1000)
+    textfield = wait.until(lambda driver: driver.find_elements(by=By.ID, value=id))[0]
+    textfield.send_keys(text)
 
 def insertText(driver, fieldNumber, text):
     wait = ui.WebDriverWait(driver, 1000)

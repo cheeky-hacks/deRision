@@ -148,5 +148,4 @@ def logAttendanceForStudent(driver, studentNumber, parameters):
     insertNotes(driver, parameters["notes"])
     # Only uncomment this when we happy that the script is robust and we don't want to include a pause-before-commit
     # clickOnButton(driver, "Confirm")
-    waitUntilWeSeeContent(driver, "Attendance record added successfully")
-    clickOnButton(driver, "Exit")
+    waitUntilWeSeeContent(driver, "Personal Tutoring: Tutee details")

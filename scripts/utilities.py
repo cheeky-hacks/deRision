@@ -1,4 +1,4 @@
-import os, pwd, time
+import os, time
 from selenium import webdriver
 from selenium.webdriver.support import ui
 from selenium.webdriver.common.by import By
@@ -14,7 +14,7 @@ def initialiseDriver():
         if (binaryFilename[0] != "."): driver = webdriver.Chrome(options=options, executable_path="driver" + os.sep + binaryFilename)
     driver.get("https://evision.apps.bristol.ac.uk")
     waitUntilWeSeeContent(driver, "Sign in")
-    username = pwd.getpwuid(os.getuid())[0]
+    username = os.path.expanduser("~")[-7:]
     insertTextByID(driver,"MUA_CODE.DUMMY.MENSYS",username)
     # Set focus to be password field (so the user can just type it in !)
     clickOnElementByID(driver,"PASSWORD.DUMMY.MENSYS")

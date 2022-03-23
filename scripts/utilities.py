@@ -41,6 +41,12 @@ def clickLastRadioButton(driver):
     radiobuttons = wait.until(lambda driver: driver.find_elements(by=By.XPATH, value="//input[@type='radio']"))
     radiobuttons[len(radiobuttons)-1].click()
 
+def selectCurrentlyRegisteredEnrolment(driver):
+    wait = ui.WebDriverWait(driver, 1000)
+    currentEnrolment = wait.until(lambda driver: driver.find_elements(by=By.XPATH, value="//td[contains(text(), 'REGISTERED')]"))[0]
+    radiobutton = currentEnrolment.find_elements(by=By.XPATH, value="../td[1]/div/label/input[@type='radio']")[0]
+    radiobutton.click()
+
 def pickFromDropDown(driver, boxNumber, optionNumber):
     wait = ui.WebDriverWait(driver, 1000)
     dropdowns = []
@@ -127,9 +133,10 @@ def logAttendanceForStudent(driver, studentNumber, parameters):
     # There are some hidden text fields in the page, so the student number textfield has an index of 2
     insertText(driver, 2, studentNumber)
     clickOnButton(driver, "Search")
+    waitUntilWeSeeContent(driver, "Exit")
     # If the student has more than one record, we have to do the extra set of selecting one
     if "Select student programme record" in driver.page_source:
-        clickLastRadioButton(driver)
+        selectCurrentlyRegisteredEnrolment(driver)
         clickOnButton(driver, "Next")
     clickOnButton(driver, "Log attendance")
     # Make sure the page hasn't been changed by checking the names of some of the labels
@@ -140,7 +147,7 @@ def logAttendanceForStudent(driver, studentNumber, parameters):
     # Box number 1 is the name of the personal tutor - should only have one option in the list !
     pickFromDropDown(driver, 1, 1)
     # Box number 4 is the "Advice given" dropdown - set this to option 1: "Academic Support" !
-    pickFromDropDown(driver, 4, 1)
+    # pickFromDropDown(driver, 4, 1) # This dropdown was changed to some kind of styled list in a eVision update
     # If you look at the page source, the date text input is 0, but for some reason we have to use 2 !
     if "date" in parameters: insertText(driver, 2, parameters["date"])
     # If you look at the page source, the time text input is 1, but for some reason we have to use 3 !

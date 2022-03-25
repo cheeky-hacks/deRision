@@ -5,13 +5,18 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 def initialiseDriver():
+    # Python 2 version of selenium seems only to support page load strategy specified via "capabilities"
+    capabilities = DesiredCapabilities().CHROME
+    capabilities["pageLoadStrategy"] = "eager"
+    # Python 3 version of selenium specifies page load strategy via "options"
     options = Options()
     options.page_load_strategy = "eager"
     driverBinaries = os.listdir("driver")
     for binaryFilename in driverBinaries:
-        if (binaryFilename[0] != "."): driver = webdriver.Chrome(options=options, executable_path="driver" + os.sep + binaryFilename)
+        if (binaryFilename[0] != "."): driver = webdriver.Chrome(desired_capabilities=capabilities, options=options, executable_path="driver" + os.sep + binaryFilename)
     driver.get("https://evision.apps.bristol.ac.uk")
     waitUntilWeSeeContent(driver, "Sign in")
     username = os.path.expanduser("~")[-7:]

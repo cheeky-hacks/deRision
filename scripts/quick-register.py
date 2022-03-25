@@ -14,7 +14,8 @@ while i < len(sys.argv):
 
 if len(students) == 0: print("Usage: python " + sys.argv[0] + " [-d DD/MM/YYYY] [-t HH:MM] <student number>...")
 else:
-    parameters["notes"] = input("Please enter note text for these students: ")
+    if (sys.version_info.major == 2): parameters["notes"] = raw_input("Please enter note text for these students: ")
+    else: parameters["notes"] = input("Please enter note text for these students: ")
     driver = utilities.initialiseDriver()
     # utilities.hideBrowser(driver)
 

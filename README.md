@@ -12,9 +12,13 @@ In order to use these scripts, you will need to install a
 that matches your platform and browser.  
 Once downloaded and unzipped, place the driver in the `driver` folder of this project.
 
-You will also need to install the Python bindings for the browser driver. This can be down with:
+You will also need to install the Python bindings for the browser driver. This can be done with either:
 ```
 pip install selenium
+```
+or
+```
+python -m pip install selenium
 ```
 
 ## Running the "Quick Register" script
@@ -23,12 +27,14 @@ To run the "Quick Register" personal tutorial attendance script, `cd` into the p
 python scripts/quick-register.py 1911111 1922222 1933333
 ```
 Where the numbers at the end are student numbers of the students you wish to log attendance for.  
-You will then be prompted to enter some note text which will be added to all students attendance records.
-Following this, a new browser window will open and you will be asked to sign in to eVision.  
+You will then be prompted to enter some note text which will be added to _all_ students attendance records.
+Following this, a new browser window will open and you will be prompted to sign in to eVision.  
 Once you have signed in, the script will take over and automate the tasks involved in logging attendance.
 
+The current version of the script will pause after inserting data for each student - just click the `Confirm` button to continue.
+
 By default, the script will use the current date and time for the logged personal tutorial.  
-If you are registering attendance some time after the tutorial meeting, it is possible to specify time and/or date with:
+If you are registering attendance some time after the tutorial meeting, it is possible to specify the time and/or date with:
 ```
 python scripts/quick-register.py -t 11:30 -d 22/02/2022 1911111 1922222 1933333
 ```

@@ -138,11 +138,13 @@ def logAttendanceForStudent(driver, studentNumber, parameters):
     # There are some hidden text fields in the page, so the student number textfield has an index of 2
     insertText(driver, 2, studentNumber)
     clickOnButton(driver, "Search")
-    waitUntilWeSeeContent(driver, "Exit")
+    waitUntilWeSeeContent(driver, "Back")
     # If the student has more than one record, we have to do the extra set of selecting one
     if "Select student programme record" in driver.page_source:
         selectCurrentlyRegisteredEnrolment(driver)
         clickOnButton(driver, "Next")
+    # Wait for page to settle
+    time.sleep(2)
     clickOnButton(driver, "Log attendance")
     # Make sure the page hasn't been changed by checking the names of some of the labels
     checkLabel(driver, 1, "Personal tutor")
